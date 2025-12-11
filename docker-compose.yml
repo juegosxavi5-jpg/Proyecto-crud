@@ -1,0 +1,39 @@
+version: "3.8"
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: tareas_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: tareas_db
+      MYSQL_USER: tareas_user
+      MYSQL_PASSWORD: tareas_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+  web:
+    build: .
+    container_name: tareas_web
+    ports:
+      - "5000:5000"
+    environment:
+      DB_HOST: db
+      DB_USER: tareas_user
+      DB_PASSWORD: tareas_pass
+      DB_NAME: tareas_db
+      SECRET_KEY: mi-clave-secreta-super-segura
+    depends_on:
+      db:
+        condition: service_healthy
+    command: >
+      sh -c "sleep 10 && gunicorn --bind 0.0.0.0:5000 app:app"
+
+volumes:
+  mysql_data:

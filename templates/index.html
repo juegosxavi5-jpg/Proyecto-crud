@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CRUD Tareas</title>
+    <link rel="stylesheet" href="css/index.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>📝 Gestor de Tareas</h1>
+
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">{{ message }}</div>
+      {% endfor %} {% endif %} {% endwith %}
+
+      <form
+        action="{{ url_for('agregar') }}"
+        method="POST"
+        class="form-agregar">
+        <input
+          type="text"
+          name="name"
+          placeholder="Escribe una nueva tarea..."
+          required />
+        <button type="submit" class="btn btn-primary">Agregar</button>
+      </form>
+
+      {% if tareas %}
+      <ul class="tareas-list">
+        {% for tarea in tareas %}
+        <li class="tarea-item">
+          <div class="tarea-info">
+            <div class="tarea-id">ID: {{ tarea.id }}</div>
+            <div class="tarea-name">{{ tarea.name }}</div>
+          </div>
+          <div class="tarea-actions">
+            <a
+              href="{{ url_for('modificar', id=tarea.id) }}"
+              class="btn btn-edit"
+              >Modificar</a
+            >
+            <a
+              href="{{ url_for('eliminar', id=tarea.id) }}"
+              class="btn btn-delete"
+              onclick="return confirm('¿Estás seguro de eliminar esta tarea?')">
+              Eliminar
+            </a>
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <div class="empty-state">
+        <p>No hay tareas registradas. ¡Agrega tu primera tarea!</p>
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>

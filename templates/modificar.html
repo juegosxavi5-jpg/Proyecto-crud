@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Modificar Tarea</title>
+    <link rel="stylesheet" href="css/modificar.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>✏️ Modificar Tarea</h1>
+
+      {% if tarea %}
+      <div class="task-id">ID de la tarea: {{ tarea.id }}</div>
+
+      <form action="{{ url_for('modificar', id=tarea.id) }}" method="POST">
+        <div class="form-group">
+          <label for="name">Nombre de la tarea:</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value="{{ tarea.name }}"
+            required
+            autofocus />
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+          <a href="{{ url_for('index') }}" class="btn btn-secondary"
+            >Cancelar</a
+          >
+        </div>
+      </form>
+      {% else %}
+      <p style="text-align: center; color: #999">Tarea no encontrada</p>
+      <div style="margin-top: 20px">
+        <a
+          href="{{ url_for('index') }}"
+          class="btn btn-secondary"
+          style="display: block"
+          >Volver al inicio</a
+        >
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>

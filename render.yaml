@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: crud-tareas
+    env: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DB_HOST
+        value: dpg-d4ta7j56ubrc73ehbn4g-a.frankfurt-postgres.render.com
+      - key: DB_USER
+        value: xavi
+      - key: DB_PASSWORD
+        value: RO2D74OsWx2ulRGM81YZ0dvS3X0lnevP
+      - key: DB_NAME
+        value: tareas_nut8
+      - key: PORT
+        value: 5432
+      - key: SECRET_KEY
+        generateValue: true
